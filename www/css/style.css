@@ -1,1 +1,8 @@
-/* Empty. Add your own CSS if you like */
+/* TOMTODO - SASS or LESS? Probably SASS, since that is what ionic uses, but need to figure out how to use it.*/
+body {
+	color: #444;
+}
+
+body a, body a:active, body a:hover, body a:focus, body a:visited {
+	color: #444;
+}

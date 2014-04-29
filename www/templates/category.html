@@ -19,7 +19,22 @@
           <input type="checkbox">
         </label>
         {{task.name}}
-        <a href="#/app/task/{{task.id}}">&gt;</a>
+        <a href="#/app/task/{{task.id}}"><i style="float: right" class="ion-chevron-right"></i></a>
       </li>
+    </ul>
+    <ul class="list">
+      <li class="item item-checkbox" ng-repeat="task in m.tasks[m.user.id]">
+        <label class="checkbox">
+          <input type="checkbox">
+        </label>
+        {{task.name}}
+        <a href="#/app/task/{{task.id}}"><i style="float: right" class="ion-chevron-right"></i></a>
+      </li>
+    </ul>
+    <form name="add-task">
+      Task: <input type="text" ng-model="m.taskToAdd">
+      <button ng-click="fn.addTask()">Add Task</button>
+    </form>
+    <pre>{{m|json}}</pre>
   </ion-content>
 </ion-view>

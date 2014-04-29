@@ -14,6 +14,12 @@
     <ion-content class="has-header">
       <ion-list>
         <ion-item nav-clear menu-close ng-repeat="category in m.categories" href="#/app/category/{{category.id}}">{{category.name}}</ion-item>
+
+
+        <button ng-click="fn.signUp()">Sign Up</button>
+        <button ng-click="fn.signIn()">Log In</button>
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>
+
+
