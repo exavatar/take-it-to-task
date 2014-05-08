@@ -6,3 +6,8 @@ body {
 body a, body a:active, body a:hover, body a:focus, body a:visited {
 	color: #444;
 }
+
+input {
+	border: 2px;
+	border-radius: 5px;
+}

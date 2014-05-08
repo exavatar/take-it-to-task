@@ -16,8 +16,18 @@
         <ion-item nav-clear menu-close ng-repeat="category in m.categories" href="#/app/category/{{category.id}}">{{category.name}}</ion-item>
 
 
-        <button ng-click="fn.signUp()">Sign Up</button>
-        <button ng-click="fn.signIn()">Log In</button>
+        <div>
+          <form method="post" name="authForm">
+            <h3>Sign In</h3>
+            Email Address<br>
+            <input type="email" name="email" ng-model="global.authuser.email"><br>
+            Password<br>
+            <input type="password" name="password" ng-model="global.authuser.password"><br>
+            <button ng-if="!global.user" ng-click="globalFn.signIn()">Sign In</button><br>
+            <button ng-if="!global.user" ng-click="globalFn.signUp()">Sign Up</button><br>
+            <button ng-if="global.user" ng-click="globalFn.signOut()">Sign Out</button>
+          </form>
+        </div>
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>
