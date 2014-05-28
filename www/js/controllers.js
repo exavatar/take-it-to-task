@@ -42,9 +42,17 @@ angular.module('takeItToTask.controllers', [])
 .controller('GlobalController', ['$scope', '$firebase', function($scope, $firebase) {
   $scope.global = {};
   $scope.globalFn = {};
-  $scope.global.firebaseRef = new Firebase('https://exavatar.firebaseio.com/tasks');
+  
 
-  //Now people can type it in. --tconnell 2014-05-05
+  //Firebase references
+  $scope.global.firebaseRef = new Firebase('https://exavatar.firebaseio.com/'); 
+  $scope.global.firebase    = $firebase($scope.global.firebaseRef); //Entire DB
+  $scope.global.users       = $scope.global.firebase.$child('users'); //All Users
+
+  $scope.global.nowish    = new Date();
+
+
+  //Now people can type it in.  Keeping for the temp password --tconnell 2014-05-05
   //$scope.global.authuser = {email: 'exavatar@gmail.com', password:'B0bbl3'};
 
   $scope.global.auth = new FirebaseSimpleLogin($scope.global.firebaseRef, function(error, user)
@@ -54,11 +62,10 @@ angular.module('takeItToTask.controllers', [])
     } else if (user) {
       console.log("user", user);
       console.log("Auth state", $scope.global.auth);
+      
       $scope.global.user = user;
-      $scope.global.userRef = new Firebase('https://exavatar.firebaseio.com/users/'+ user.id);
-      $scope.global.tasksRef = new Firebase('https://exavatar.firebaseio.com/users/'+ user.id +'/tasks');
-      $scope.global.userData = $firebase($scope.global.userRef);
-      $scope.global.tasksData = $firebase($scope.global.tasksRef);
+      $scope.global.userData  = $scope.global.users.$child(user.id);
+      $scope.global.userTasks = $scope.global.userData.$child('tasks');
     }
     else {
       console.log(user);
@@ -68,6 +75,8 @@ angular.module('takeItToTask.controllers', [])
 
   })
 
+
+  //=========================== Global Functions ===========================
   $scope.globalFn.signIn = function()
   {
     $scope.global.auth.login('password', {
@@ -96,19 +105,33 @@ angular.module('takeItToTask.controllers', [])
     })
   }
 
-
   $scope.globalFn.addTask = function()
   {
+    var taskToAdd = $scope.global.taskToAdd;
 
-    if($scope.global.taskToAdd && $scope.global.user.id)
+    if(taskToAdd && $scope.global.user.id)
     {
-      $scope.global.tasksData.$add($scope.global.taskToAdd);
-      console.log('task added');
+      taskToAdd.dueDateTimeObj = new Date(taskToAdd.dueDate +" "+ taskToAdd.dueTime);
+      $scope.global.userTasks.$add($scope.global.taskToAdd);
     }
     //$scope.m.taskToAdd = null;
   }
 
+  $scope.globalFn.toggleTaskComplete = function(key, task)
+  {
+    if(task.completedDateTime)
+    {
+      delete task.completedDateTime;
+    } 
+    else
+    {
+      task.completedDateTime = new Date();
+    }   
+    $scope.global.userTasks.$save()
 
+  }
+
+  //=========================== End Global Functions ===========================
 
 }])
 

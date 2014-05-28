@@ -14,9 +14,9 @@
     </ion-list>
   -->
     <ul class="list">
-      <li class="item item-checkbox" ng-repeat="task in global.userData.tasks">
+      <li class="item item-checkbox" ng-repeat="(key,task) in global.userTasks">
         <label class="checkbox">
-          <input type="checkbox">
+          <input type="checkbox" ng-checked="task.completedDateTime" ng-click="globalFn.toggleTaskComplete(key, task)">
         </label>
         <pre>{{task.name}}</pre>
         <a href="#/app/task/{{task.id}}"><i style="float: right" class="ion-chevron-right"></i></a>
@@ -24,12 +24,16 @@
     </ul>
     <form name="add-task">
       Task: <input type="text" ng-model="global.taskToAdd.name">
+      Due Date: <input type="date" ng-model="global.taskToAdd.dueDate">
+      Due Time: <input type="text" ng-model="global.taskToAdd.dueTime">
       <button ng-click="globalFn.addTask()">Add Task</button>
     </form>
     <pre>
-Global: {{global.user|json}}
-{{global.taskToAdd|json}}
-{{global.userData|json}}
+==Global Stuff==
+user: {{global.user|json}}
+taskToAdd: {{global.taskToAdd|json}}
+userData: {{global.userData|json}}
+userTasks: {{global.userTasks|json}}
     </pre>
   </ion-content>
 </ion-view>
